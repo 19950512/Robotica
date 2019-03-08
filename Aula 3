@@ -1,0 +1,67 @@
+// SETA VARIAVEIS
+int led_vermelho  = 13; // PORTA DO LED
+int botao         = 2;  // PORTA DO BOTÃO
+int som           = 9;  // PORTA DO BUZZER
+int state         = 0;  // OFF - LOW
+int tempo_delay   = 500; // meio segundo
+
+// Função liga o LED
+void liga(int led){
+   digitalWrite(led, HIGH);
+   analogWrite(som, 255);
+}
+
+// Função desliga o LED
+void desliga(int led){
+   digitalWrite(led, LOW);
+   analogWrite(som, 0);
+}
+
+// Função altera o estado do LED
+void estado(int estado){
+  state = estado;
+}
+
+// Função para o delay
+void tempo(){
+    delay(tempo_delay);
+}
+
+// Função que processa o estado do LED
+void exec(int acao){
+
+    // Se o estado for ZERO (desligadO), então liga o LED
+    if(state == 0){
+      
+        liga(led_vermelho); // liga o led
+        estado(1);          // altera o estado do led
+        tempo();            // seta um delay
+ 
+    }else{
+  
+        // Se o estado for diferente de ZERO, Então desliga o LED
+      
+        desliga(led_vermelho);  // desliga o led
+        estado(0);              // altera o estado do led
+        tempo();                // seta um delay
+    }
+}
+
+void setup(){
+    pinMode(led_vermelho, OUTPUT);
+    pinMode(som, OUTPUT);
+    pinMode(botao,  INPUT);
+}
+
+void loop(){
+
+  // DADO de entrada - INPUT 
+  int btn = digitalRead(botao);
+
+  // Quando for pressionado
+  if(btn == HIGH){
+
+    // Executa / processa
+    exec(btn);
+  }
+}
